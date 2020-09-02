@@ -16,7 +16,7 @@
     "@ecomplus/application-sdk": "^21.0.0-firestore.1.13.0",
     "axios": "^0.20.0",
     "express": "4.x",
-    "firebase-admin": "^8.13.0",
+    "firebase-admin": "^9.1.1",
     "firebase-functions": "^3.11.0",
     "pagarme": "^4.12.0",
     "qs": "^6.9.4"
