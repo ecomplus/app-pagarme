@@ -130,14 +130,16 @@ exports.post = ({ appSdk }, req, res) => {
   }
 
   pagarmeTransaction.items = []
-  items.forEach(item => {
-    pagarmeTransaction.items.push({
-      id: item.sku || item.variation_id || item.product_id,
-      title: item.name || item.sku,
-      unit_price: Math.floor((item.final_price || item.price) * 100),
-      quantity: item.quantity,
-      tangible: Boolean(to && to.street)
+  items.forEach(item => { 
+    if(item.quantity > 0) {
+      pagarmeTransaction.items.push({
+        id: item.sku || item.variation_id || item.product_id,
+        title: item.name || item.sku,
+        unit_price: Math.floor((item.final_price || item.price) * 100),
+        quantity: item.quantity,
+        tangible: Boolean(to && to.street)
     })
+    }
   })
 
   // https://docs.pagar.me/reference#criar-transacao
