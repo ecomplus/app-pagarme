@@ -138,7 +138,7 @@ exports.post = ({ appSdk }, req, res) => {
         unit_price: Math.floor((item.final_price || item.price) * 100),
         quantity: item.quantity,
         tangible: Boolean(to && to.street)
-    })
+      })
     }
   })
 
