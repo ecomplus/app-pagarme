@@ -131,7 +131,7 @@ exports.post = ({ appSdk }, req, res) => {
 
   pagarmeTransaction.items = []
   items.forEach(item => { 
-    if(item.quantity > 0) {
+    if (item.quantity > 0) {
       pagarmeTransaction.items.push({
         id: item.sku || item.variation_id || item.product_id,
         title: item.name || item.sku,
