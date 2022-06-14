@@ -46,6 +46,15 @@ exports.post = ({ appSdk }, req, res) => {
       installments: installmentsNumber,
       card_hash: params.credit_card && params.credit_card.hash
     }
+  } else if (params.payment_method.code === 'account_deposit') {
+    const due_time = pix.due_time || 60
+    const date = new Date()
+    date.setTime(date.getTime() + due_time * 60000) 
+    pagarmeTransaction = {
+      payment_method: 'pix',
+      amount: Math.floor(finalAmount * 100),
+      pix_expiration_date: date.toISOString().substr(0, 10)
+    }
   } else {
     // banking billet
     transaction.banking_billet = {}
