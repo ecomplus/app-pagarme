@@ -53,7 +53,7 @@ exports.post = ({ appSdk }, req, res) => {
     pagarmeTransaction = {
       payment_method: 'pix',
       amount: Math.floor(finalAmount * 100),
-      pix_expiration_date: date.toISOString().substr(0, 10)
+      pix_expiration_date: date.toISOString()
     }
   } else {
     // banking billet
@@ -164,9 +164,10 @@ exports.post = ({ appSdk }, req, res) => {
       } else if (data.amount) {
         transaction.amount = data.amount / 100
       }
+      const paymentMethod = data.payment_method === 'pix' ? 'account_deposit' : data.payment_method
       transaction.intermediator = {
         payment_method: {
-          code: data.payment_method || params.payment_method.code
+          code: paymentMethod || params.payment_method.code
         }
       }
       ;[
@@ -199,6 +200,11 @@ exports.post = ({ appSdk }, req, res) => {
           company: data.card.brand,
           token: data.card.fingerprint
         }
+      } else if (paymentMethod === 'account_deposit') {
+        transaction.payment_link = qrCodeUrl
+        const qrCode = data.pix_qr_code
+        const qrCodeSrc = `https://gerarqrcodepix.com.br/api/v1?brcode=${qrCode}&tamanho=256`
+        transaction.notes = `<img src="${qrCodeSrc}" style="display:block;margin:0 auto">`
       }
 
       transaction.status = {
