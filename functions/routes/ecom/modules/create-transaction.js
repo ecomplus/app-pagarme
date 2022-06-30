@@ -150,7 +150,7 @@ exports.post = ({ appSdk }, req, res) => {
       })
     }
   })
-
+  console.log('Cheguei Aqui', JSON.stringify(pagarmeTransaction))
   // https://docs.pagar.me/reference#criar-transacao
   axios({
     url: 'https://api.pagar.me/1/transactions',
