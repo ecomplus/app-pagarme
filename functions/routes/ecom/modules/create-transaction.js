@@ -165,10 +165,10 @@ exports.post = ({ appSdk }, req, res) => {
       } else if (data.amount) {
         transaction.amount = data.amount / 100
       }
-      const paymentMethod = data.payment_method === 'pix' ? 'account_deposit' : data.payment_method
+      //const paymentMethod = data.payment_method === 'pix' ? 'account_deposit' : data.payment_method
       transaction.intermediator = {
         payment_method: {
-          code: paymentMethod || params.payment_method.code
+          code: params.payment_method.code
         }
       }
       ;[
@@ -201,7 +201,7 @@ exports.post = ({ appSdk }, req, res) => {
           company: data.card.brand,
           token: data.card.fingerprint
         }
-      } else if (paymentMethod === 'account_deposit') {
+      } else if (data.payment_method === 'pix') {
         transaction.payment_link = qrCodeUrl
         const qrCode = data.pix_qr_code
         const qrCodeSrc = `https://gerarqrcodepix.com.br/api/v1?brcode=${qrCode}&tamanho=256`
