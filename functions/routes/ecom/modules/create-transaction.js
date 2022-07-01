@@ -55,6 +55,7 @@ exports.post = ({ appSdk }, req, res) => {
       amount: Math.floor(finalAmount * 100),
       pix_expiration_date: date.toISOString()
     }
+    console.log('Entrei no pix', JSON.stringify(pagarmeTransaction))
   } else {
     // banking billet
     transaction.banking_billet = {}
