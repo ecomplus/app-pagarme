@@ -6,6 +6,7 @@ const parseStatus = require('../../../lib/payments/parse-status')
 exports.post = ({ appSdk }, req, res) => {
   // https://apx-mods.e-com.plus/api/v1/create_transaction/schema.json?store_id=100
   const { params, application } = req.body
+  console.log('Vamos ao req body', JSON.stringify(req.body))
   const { storeId } = req
   const config = Object.assign({}, application.data, application.hidden_data)
 
