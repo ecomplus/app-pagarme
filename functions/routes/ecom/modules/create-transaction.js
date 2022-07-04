@@ -6,7 +6,6 @@ const parseStatus = require('../../../lib/payments/parse-status')
 exports.post = ({ appSdk }, req, res) => {
   // https://apx-mods.e-com.plus/api/v1/create_transaction/schema.json?store_id=100
   const { params, application } = req.body
-  console.log('Vamos ao req body', JSON.stringify(req.body))
   const { storeId } = req
   const config = Object.assign({}, application.data, application.hidden_data)
 
@@ -48,15 +47,16 @@ exports.post = ({ appSdk }, req, res) => {
       card_hash: params.credit_card && params.credit_card.hash
     }
   } else if (params.payment_method.code === 'account_deposit') {
-    const due_time = pix.due_time || 60
+    const finalAmount = amount.total
+    const pixConfig = config.account_deposit
+    const dueTime = pixConfig.due_time || 60
     const date = new Date()
-    date.setTime(date.getTime() + due_time * 60000) 
+    date.setTime(date.getTime() + dueTime * 60000)
     pagarmeTransaction = {
       payment_method: 'pix',
       amount: Math.floor(finalAmount * 100),
       pix_expiration_date: date.toISOString()
     }
-    console.log('Entrei no pix', JSON.stringify(pagarmeTransaction))
   } else {
     // banking billet
     transaction.banking_billet = {}

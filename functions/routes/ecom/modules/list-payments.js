@@ -87,7 +87,7 @@ exports.post = ({ appSdk }, req, res) => {
           return 'Pix'
         }
       }
-      const label = methodConfig.label || alternativeLabel
+      const label = methodConfig.label || alternativeLabel(isCreditCard, isBankingBillet)
       const gateway = {
         label,
         icon: methodConfig.icon,
