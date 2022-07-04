@@ -23,6 +23,7 @@ exports.post = ({ appSdk }, req, res) => {
   let pagarmeTransaction
 
   if (params.payment_method.code === 'credit_card') {
+    console.log('entrei no pagamento de cartão', params.payment_method.code)
     let installmentsNumber = params.installments_number
     let finalAmount = amount.total
     if (installmentsNumber > 1) {
@@ -130,7 +131,8 @@ exports.post = ({ appSdk }, req, res) => {
     }
     pagarmeTransaction.billing = {
       name: (payer || buyer).fullname,
-      address: params.billing_address ? parseAddress(params.billing_address)
+      address: params.billing_address
+        ? parseAddress(params.billing_address)
         : pagarmeTransaction.shipping.address
     }
   } else if (params.billing_address) {
@@ -141,7 +143,7 @@ exports.post = ({ appSdk }, req, res) => {
   }
 
   pagarmeTransaction.items = []
-  items.forEach(item => { 
+  items.forEach(item => {
     if (item.quantity > 0) {
       pagarmeTransaction.items.push({
         id: item.sku || item.variation_id || item.product_id,
@@ -166,10 +168,12 @@ exports.post = ({ appSdk }, req, res) => {
       } else if (data.amount) {
         transaction.amount = data.amount / 100
       }
-      //const paymentMethod = data.payment_method === 'pix' ? 'account_deposit' : data.payment_method
+      const paymentMethod = data.payment_method === 'pix'
+        ? 'account_deposit'
+        : data.payment_method
       transaction.intermediator = {
         payment_method: {
-          code: params.payment_method.code
+          code: paymentMethod || params.payment_method.code
         }
       }
       ;[
@@ -202,7 +206,7 @@ exports.post = ({ appSdk }, req, res) => {
           company: data.card.brand,
           token: data.card.fingerprint
         }
-      } else if (data.payment_method === 'pix') {
+      } else if (paymentMethod === 'account_deposit') {
         const qrCode = data.pix_qr_code
         transaction.payment_link = qrCode
         const qrCodeSrc = `https://gerarqrcodepix.com.br/api/v1?brcode=${qrCode}&tamanho=256`
@@ -213,6 +217,7 @@ exports.post = ({ appSdk }, req, res) => {
         updated_at: data.date_created || data.date_updated || new Date().toISOString(),
         current: parseStatus(data.status)
       }
+      console.log('Criou pedido e transação', JSON.stringify(transaction))
       res.send({ transaction })
     })
 
