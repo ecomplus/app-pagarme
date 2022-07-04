@@ -153,7 +153,6 @@ exports.post = ({ appSdk }, req, res) => {
       })
     }
   })
-  console.log('Cheguei Aqui', JSON.stringify(pagarmeTransaction))
   // https://docs.pagar.me/reference#criar-transacao
   axios({
     url: 'https://api.pagar.me/1/transactions',
@@ -161,9 +160,8 @@ exports.post = ({ appSdk }, req, res) => {
     data: pagarmeTransaction
   })
 
-    .then((result) => {
-      const { data } = result
-      console.log('Status da resposta', result)
+    .then(({ data }) => {
+
       if (data.authorized_amount) {
         transaction.amount = data.authorized_amount / 100
       } else if (data.amount) {
@@ -209,7 +207,7 @@ exports.post = ({ appSdk }, req, res) => {
         }
       } else if (paymentMethod === 'account_deposit') {
         const qrCode = data.pix_qr_code
-        transaction.payment_link = qrCode
+        transaction.intermediator.transaction_code = qrCode
         const qrCodeSrc = `https://gerarqrcodepix.com.br/api/v1?brcode=${qrCode}&tamanho=256`
         transaction.notes = `<img src="${qrCodeSrc}" style="display:block;margin:0 auto">`
       }
@@ -218,7 +216,6 @@ exports.post = ({ appSdk }, req, res) => {
         updated_at: data.date_created || data.date_updated || new Date().toISOString(),
         current: parseStatus(data.status)
       }
-      console.log('Criou pedido e transação', JSON.stringify(transaction))
       res.send({ transaction })
     })
 
