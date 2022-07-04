@@ -203,8 +203,8 @@ exports.post = ({ appSdk }, req, res) => {
           token: data.card.fingerprint
         }
       } else if (data.payment_method === 'pix') {
-        transaction.payment_link = qrCodeUrl
         const qrCode = data.pix_qr_code
+        transaction.payment_link = qrCode
         const qrCodeSrc = `https://gerarqrcodepix.com.br/api/v1?brcode=${qrCode}&tamanho=256`
         transaction.notes = `<img src="${qrCodeSrc}" style="display:block;margin:0 auto">`
       }
