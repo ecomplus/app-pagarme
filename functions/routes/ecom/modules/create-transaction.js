@@ -23,7 +23,6 @@ exports.post = ({ appSdk }, req, res) => {
   let pagarmeTransaction
 
   if (params.payment_method.code === 'credit_card') {
-    console.log('entrei no pagamento de cartão', params.payment_method.code)
     let installmentsNumber = params.installments_number
     let finalAmount = amount.total
     if (installmentsNumber > 1) {
@@ -164,7 +163,7 @@ exports.post = ({ appSdk }, req, res) => {
 
     .then((result) => {
       const { data } = result
-      console.log('Status da resposta', JSON.stringify(result))
+      console.log('Status da resposta', result)
       if (data.authorized_amount) {
         transaction.amount = data.authorized_amount / 100
       } else if (data.amount) {
