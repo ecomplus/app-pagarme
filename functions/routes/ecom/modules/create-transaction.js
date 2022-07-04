@@ -162,7 +162,9 @@ exports.post = ({ appSdk }, req, res) => {
     data: pagarmeTransaction
   })
 
-    .then(({ data }) => {
+    .then((result) => {
+      const { data } = result
+      console.log('Status da resposta', JSON.stringify(result))
       if (data.authorized_amount) {
         transaction.amount = data.authorized_amount / 100
       } else if (data.amount) {
