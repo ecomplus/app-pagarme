@@ -258,7 +258,7 @@ const app = {
           disable: {
             type: 'boolean',
             title: 'Desabilitar pix',
-            description: 'Desabilitar pagamento com pix via Pagar.me'
+            description: 'Desabilitar pagamento com Pix via Pagar.me'
           },
           due_time: {
             type: 'integer',
