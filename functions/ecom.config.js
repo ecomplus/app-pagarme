@@ -343,7 +343,7 @@ const app = {
           },
           account_deposit: {
             type: 'boolean',
-            title: 'Desconto no pix',
+            title: 'Desconto no Pix',
             description: 'Habilitar desconto com Pix via Pagar.me'
           }
         },
