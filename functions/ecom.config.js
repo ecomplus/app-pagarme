@@ -283,7 +283,7 @@ const app = {
           }
         },
         title: 'Pix',
-        description: 'Configurações adicionais para pix'
+        description: 'Configurações adicionais para Pix'
       },
       hide: false
     },
