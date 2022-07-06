@@ -265,7 +265,7 @@ const app = {
             minimum: 1,
             maximum: 9999,
             default: 60,
-            title: 'Minutos para validade do pix'
+            title: 'Minutos para validade do Pix'
           },
           label: {
             type: 'string',
