@@ -75,14 +75,15 @@ exports.post = ({ appSdk }, req, res) => {
   }
   ;['credit_card', 'banking_billet', 'account_deposit'].forEach(paymentMethod => {
     const methodConfig = config[paymentMethod] || {}
-    if (!methodConfig.disable) {
+    const isPix = paymentMethod === 'account_deposit'
+    if (!methodConfig.disable && (!isPix || methodConfig.enable)) {
       const isCreditCard = paymentMethod === 'credit_card'
       let label = methodConfig.label
       if (!label) {
         if (isCreditCard) {
           label = 'Cartão de crédito'
         } else {
-          label = paymentMethod === 'banking_billet' ? 'Boleto bancário' : 'Pix'
+          label = !isPix ? 'Boleto bancário' : 'Pix'
         }
       }
       const gateway = {

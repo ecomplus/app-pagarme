@@ -16,7 +16,7 @@ const app = {
   /**
    * Uncomment modules above to work with E-Com Plus Mods API on Storefront.
    * Ref.: https://developers.e-com.plus/modules-api/
-   * /
+   */
   modules: {
     /**
      * Triggered to calculate shipping options, must return values and deadlines.
@@ -255,10 +255,11 @@ const app = {
         type: 'object',
         additionalProperties: false,
         properties: {
-          disable: {
+          enable: {
             type: 'boolean',
-            title: 'Desabilitar pix',
-            description: 'Desabilitar pagamento com Pix via Pagar.me'
+            title: 'Habilitar Pix',
+            description: 'Desabilitar pagamento com Pix via Pagar.me',
+            default: true
           },
           due_time: {
             type: 'integer',

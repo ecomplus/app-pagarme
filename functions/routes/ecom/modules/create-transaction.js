@@ -161,7 +161,6 @@ exports.post = ({ appSdk }, req, res) => {
   })
 
     .then(({ data }) => {
-
       if (data.authorized_amount) {
         transaction.amount = data.authorized_amount / 100
       } else if (data.amount) {
