@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/ecomplus/application-starter/compare/v1.2.0...v1.3.0) (2022-07-08)
+
+
+### Features
+
+* **pix:** Insert pix as a new payment method ([#83](https://github.com/ecomplus/application-starter/issues/83)) [skip ci] ([f52527b](https://github.com/ecomplus/application-starter/commit/f52527be5272163b31daac39647550014c9a8d17))
+
+
+### Bug Fixes
+
+* **admin-settings:** pix disabled by default ([1cb76b3](https://github.com/ecomplus/application-starter/commit/1cb76b36a06381fea6044fee9768050ec4c85bdb)), closes [#discussion_r914312128](https://github.com/ecomplus/application-starter/issues/discussion_r914312128)
+* **create-transaction:** check each item quantity ([#49](https://github.com/ecomplus/application-starter/issues/49)) ([e697ce2](https://github.com/ecomplus/application-starter/commit/e697ce2ad728d3b6601f93131a2ba8182474c4e6))
+* **deps:** update all non-major dependencies ([#20](https://github.com/ecomplus/application-starter/issues/20)) ([68144e5](https://github.com/ecomplus/application-starter/commit/68144e59d697d4a85c3ffc4396834d8519946185))
+* **deps:** update all non-major dependencies ([#44](https://github.com/ecomplus/application-starter/issues/44)) ([f826478](https://github.com/ecomplus/application-starter/commit/f826478e89d30c5351070d13efffa540c1466188))
+* **deps:** update all non-major dependencies ([#50](https://github.com/ecomplus/application-starter/issues/50)) ([8349b13](https://github.com/ecomplus/application-starter/commit/8349b13a689b66e4b25e7669f9bf72bd3b62b942))
+* **deps:** update all non-major dependencies ([#53](https://github.com/ecomplus/application-starter/issues/53)) ([58706d2](https://github.com/ecomplus/application-starter/commit/58706d2bd07876baabb3be3d1bccba447029761b))
+* **deps:** update all non-major dependencies ([#64](https://github.com/ecomplus/application-starter/issues/64)) ([c07e126](https://github.com/ecomplus/application-starter/commit/c07e1267df97d130f4cb99ea7ecb13ac3438da5a))
+
 ## [1.2.0](https://github.com/ecomplus/application-starter/compare/v1.1.4...v1.2.0) (2021-02-15)
 
 
