@@ -73,11 +73,18 @@ exports.post = ({ appSdk }, req, res) => {
     link: 'https://pagar.me/',
     code: 'pagarme'
   }
-  ;['credit_card', 'banking_billet'].forEach(paymentMethod => {
+  ;['credit_card', 'banking_billet', 'account_deposit'].forEach(paymentMethod => {
     const methodConfig = config[paymentMethod] || {}
     if (!methodConfig.disable) {
       const isCreditCard = paymentMethod === 'credit_card'
-      const label = methodConfig.label || (isCreditCard ? 'Cartão de crédito' : 'Boleto bancário')
+      let label = methodConfig.label
+      if (!label) {
+        if (isCreditCard) {
+          label = 'Cartão de crédito'
+        } else {
+          label = paymentMethod === 'banking_billet' ? 'Boleto bancário' : 'Pix'
+        }
+      }
       const gateway = {
         label,
         icon: methodConfig.icon,

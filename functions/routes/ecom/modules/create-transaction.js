@@ -46,6 +46,17 @@ exports.post = ({ appSdk }, req, res) => {
       installments: installmentsNumber,
       card_hash: params.credit_card && params.credit_card.hash
     }
+  } else if (params.payment_method.code === 'account_deposit') {
+    const finalAmount = amount.total
+    const pixConfig = config.account_deposit
+    const dueTime = pixConfig.due_time || 60
+    const date = new Date()
+    date.setTime(date.getTime() + dueTime * 60000)
+    pagarmeTransaction = {
+      payment_method: 'pix',
+      amount: Math.floor(finalAmount * 100),
+      pix_expiration_date: date.toISOString()
+    }
   } else {
     // banking billet
     transaction.banking_billet = {}
@@ -119,7 +130,8 @@ exports.post = ({ appSdk }, req, res) => {
     }
     pagarmeTransaction.billing = {
       name: (payer || buyer).fullname,
-      address: params.billing_address ? parseAddress(params.billing_address)
+      address: params.billing_address
+        ? parseAddress(params.billing_address)
         : pagarmeTransaction.shipping.address
     }
   } else if (params.billing_address) {
@@ -130,7 +142,7 @@ exports.post = ({ appSdk }, req, res) => {
   }
 
   pagarmeTransaction.items = []
-  items.forEach(item => { 
+  items.forEach(item => {
     if (item.quantity > 0) {
       pagarmeTransaction.items.push({
         id: item.sku || item.variation_id || item.product_id,
@@ -141,7 +153,6 @@ exports.post = ({ appSdk }, req, res) => {
       })
     }
   })
-
   // https://docs.pagar.me/reference#criar-transacao
   axios({
     url: 'https://api.pagar.me/1/transactions',
@@ -150,14 +161,18 @@ exports.post = ({ appSdk }, req, res) => {
   })
 
     .then(({ data }) => {
+
       if (data.authorized_amount) {
         transaction.amount = data.authorized_amount / 100
       } else if (data.amount) {
         transaction.amount = data.amount / 100
       }
+      const paymentMethod = data.payment_method === 'pix'
+        ? 'account_deposit'
+        : data.payment_method
       transaction.intermediator = {
         payment_method: {
-          code: data.payment_method || params.payment_method.code
+          code: paymentMethod || params.payment_method.code
         }
       }
       ;[
@@ -190,6 +205,11 @@ exports.post = ({ appSdk }, req, res) => {
           company: data.card.brand,
           token: data.card.fingerprint
         }
+      } else if (paymentMethod === 'account_deposit') {
+        const qrCode = data.pix_qr_code
+        transaction.intermediator.transaction_code = qrCode
+        const qrCodeSrc = `https://gerarqrcodepix.com.br/api/v1?brcode=${qrCode}&tamanho=256`
+        transaction.notes = `<img src="${qrCodeSrc}" style="display:block;margin:0 auto">`
       }
 
       transaction.status = {

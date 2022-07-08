@@ -16,7 +16,7 @@ const app = {
   /**
    * Uncomment modules above to work with E-Com Plus Mods API on Storefront.
    * Ref.: https://developers.e-com.plus/modules-api/
-   */
+   * /
   modules: {
     /**
      * Triggered to calculate shipping options, must return values and deadlines.
@@ -250,6 +250,43 @@ const app = {
       },
       hide: false
     },
+    account_deposit: {
+      schema: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          disable: {
+            type: 'boolean',
+            title: 'Desabilitar pix',
+            description: 'Desabilitar pagamento com Pix via Pagar.me'
+          },
+          due_time: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 9999,
+            default: 60,
+            title: 'Minutos para validade do Pix'
+          },
+          label: {
+            type: 'string',
+            maxLength: 50,
+            title: 'Rótulo',
+            description: 'Nome da forma de pagamento exibido para os clientes',
+            default: 'Pix'
+          },
+          icon: {
+            type: 'string',
+            maxLength: 255,
+            format: 'uri',
+            title: 'Ícone',
+            description: 'Ícone customizado para a forma de pagamento, URL da imagem'
+          }
+        },
+        title: 'Pix',
+        description: 'Configurações adicionais para Pix'
+      },
+      hide: false
+    },
     discount: {
       schema: {
         type: 'object',
@@ -303,6 +340,11 @@ const app = {
             type: 'boolean',
             title: 'Desconto no cartão',
             description: 'Habilitar desconto com cartão de crédito via Pagar.me'
+          },
+          account_deposit: {
+            type: 'boolean',
+            title: 'Desconto no Pix',
+            description: 'Habilitar desconto com Pix via Pagar.me'
           }
         },
         title: 'Desconto',

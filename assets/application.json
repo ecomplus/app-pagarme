@@ -152,6 +152,43 @@
       },
       "hide": false
     },
+    "account_deposit": {
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "disable": {
+            "type": "boolean",
+            "title": "Desabilitar pix",
+            "description": "Desabilitar pagamento com pix via Pagar.me"
+          },
+          "due_time": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9999,
+            "default": 60,
+            "title": "Minutos para validade do pix"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Rótulo",
+            "description": "Nome da forma de pagamento exibido para os clientes",
+            "default": "Pix"
+          },
+          "icon": {
+            "type": "string",
+            "maxLength": 255,
+            "format": "uri",
+            "title": "Ícone",
+            "description": "Ícone customizado para a forma de pagamento, URL da imagem"
+          }
+        },
+        "title": "Pix",
+        "description": "Configurações adicionais para pix"
+      },
+      "hide": false
+    },
     "discount": {
       "schema": {
         "type": "object",
@@ -205,6 +242,11 @@
             "type": "boolean",
             "title": "Desconto no cartão",
             "description": "Habilitar desconto com cartão de crédito via Pagar.me"
+          },
+          "account_deposit": {
+            "type": "boolean",
+            "title": "Desconto no pix",
+            "description": "Habilitar desconto com pix via Pagar.me"
           }
         },
         "title": "Desconto",
