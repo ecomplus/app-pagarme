@@ -157,17 +157,18 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "disable": {
+          "enable": {
             "type": "boolean",
-            "title": "Desabilitar pix",
-            "description": "Desabilitar pagamento com pix via Pagar.me"
+            "title": "Habilitar Pix",
+            "description": "Desabilitar pagamento com Pix via Pagar.me",
+            "default": true
           },
           "due_time": {
             "type": "integer",
             "minimum": 1,
             "maximum": 9999,
             "default": 60,
-            "title": "Minutos para validade do pix"
+            "title": "Minutos para validade do Pix"
           },
           "label": {
             "type": "string",
@@ -185,7 +186,7 @@
           }
         },
         "title": "Pix",
-        "description": "Configurações adicionais para pix"
+        "description": "Configurações adicionais para Pix"
       },
       "hide": false
     },
@@ -245,8 +246,8 @@
           },
           "account_deposit": {
             "type": "boolean",
-            "title": "Desconto no pix",
-            "description": "Habilitar desconto com pix via Pagar.me"
+            "title": "Desconto no Pix",
+            "description": "Habilitar desconto com Pix via Pagar.me"
           }
         },
         "title": "Desconto",
@@ -307,5 +308,5 @@
     }
   },
   "auth_callback_uri": "https://us-central1-ecom-pagarme.cloudfunctions.net/app/ecom/auth-callback",
-  "version": "1.2.0"
+  "version": "1.3.0"
 }
