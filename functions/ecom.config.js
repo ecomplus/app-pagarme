@@ -7,7 +7,7 @@
 
 const app = {
   app_id: 117391,
-  title: 'Pagar.me Teste N',
+  title: 'Pagar.me Teste Novo',
   slug: 'pagarme',
   type: 'external',
   state: 'active',
