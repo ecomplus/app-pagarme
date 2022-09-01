@@ -113,10 +113,13 @@ exports.post = ({ appSdk }, req, res) => {
         }
         const { installments } = config
         if (installments) {
+          console.log('Amount used for this calculation :', amount)
           // list all installment options and default one
           addInstallments(amount, installments, gateway, response)
         }
       }
+      console.log('Method config :', methodConfig)
+      console.log('Method config for discount :', methodConfig.discount)
 
       if (methodConfig.discount) {
         gateway.discount = methodConfig.discount
