@@ -60,6 +60,7 @@ exports.post = ({ appSdk }, req, res) => {
           amount.discount = (amount.discount || 0) + discountValue
           amount.total -= discountValue
           console.log('Discount to be applied', amount)
+          console.log('Discount object', discount)
           if (amount.total < 0) {
             amount.total = 0
           }
