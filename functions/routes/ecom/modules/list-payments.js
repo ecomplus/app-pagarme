@@ -59,6 +59,7 @@ exports.post = ({ appSdk }, req, res) => {
         if (discountValue > 0) {
           amount.discount = (amount.discount || 0) + discountValue
           amount.total -= discountValue
+          console.log('Discount', methodConfig, amount)
           if (amount.total < 0) {
             amount.total = 0
           }
@@ -118,8 +119,6 @@ exports.post = ({ appSdk }, req, res) => {
           addInstallments(amount, installments, gateway, response)
         }
       }
-      console.log('Method config :', methodConfig)
-      console.log('Method config for discount :', methodConfig.discount)
 
       if (methodConfig.discount) {
         gateway.discount = methodConfig.discount
