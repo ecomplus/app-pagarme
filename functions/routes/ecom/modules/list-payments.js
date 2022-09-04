@@ -7,7 +7,7 @@ exports.post = ({ appSdk }, req, res) => {
   // https://apx-mods.e-com.plus/api/v1/list_payments/schema.json?store_id=100
   const { params, application } = req.body
   const amount = params.amount || {}
-  console.log('Parametros', params)
+  console.log('Parametros', JSON.stringify(params))
 
   const config = Object.assign({}, application.data, application.hidden_data)
   if (!config.pagarme_encryption_key || !config.pagarme_api_key) {
