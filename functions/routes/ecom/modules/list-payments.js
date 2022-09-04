@@ -51,8 +51,10 @@ exports.post = ({ appSdk }, req, res) => {
         intermediator
       }
       const { discount } = config
+      console.log(`Desconto para ${paymentMethod}`, discount[paymentMethod])
       if (isCreditCard) {
         discount[paymentMethod] = discount[paymentMethod] === 'Todas parcelas' || (typeof discount[paymentMethod] === 'boolean' && discount[paymentMethod])
+        console.log('Desconto no cartao', discount[paymentMethod])
       }
       if (discount && discount.value > 0) {
         if (discount.apply_at !== 'freight') {
