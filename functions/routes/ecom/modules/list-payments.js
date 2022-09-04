@@ -66,42 +66,42 @@ exports.post = ({ appSdk }, req, res) => {
             }
           })
         }
-        if (methodConfig.discount) {
-          gateway.discount = methodConfig.discount
-          if (amount.total) {
-            // check amount value to apply discount
-            if (amount.total < discount.min_amount) {
-              discount.value = 0
+        if (amount.total) {
+          // check amount value to apply discount
+          if (amount.total < discount.min_amount) {
+            discount.value = 0
+          } else {
+            delete discount.min_amount
+            // fix local amount object
+            const maxDiscount = amount[discount.apply_at || 'subtotal']
+            let discountValue
+            if (discount.type === 'percentage') {
+              discountValue = maxDiscount * discount.value / 100
             } else {
-              delete discount.min_amount
-              // fix local amount object
-              const maxDiscount = amount[discount.apply_at || 'subtotal']
-              let discountValue
-              if (discount.type === 'percentage') {
-                discountValue = maxDiscount * discount.value / 100
-              } else {
-                discountValue = discount.value
-                if (discountValue > maxDiscount) {
-                  discountValue = maxDiscount
-                }
+              discountValue = discount.value
+              if (discountValue > maxDiscount) {
+                discountValue = maxDiscount
               }
-              if (discountValue > 0) {
-                amount.discount = (amount.discount || 0) + discountValue
-                amount.total -= discountValue
-                if (amount.total < 0) {
-                  amount.total = 0
-                }
+            }
+            if (discountValue > 0 && methodConfig.discount) {
+              amount.discount = (amount.discount || 0) + discountValue
+              amount.total -= discountValue
+              if (amount.total < 0) {
+                amount.total = 0
               }
             }
           }
-        } else if (
-          discount &&
-          (discount[paymentMethod] === true || (!isCreditCard && discount[paymentMethod] !== false))
-        ) {
-          gateway.discount = discount
-          if (response.discount_option && !response.discount_option.label) {
-            response.discount_option.label = label
-          }
+        }
+      }
+      if (methodConfig.discount) {
+        gateway.discount = methodConfig.discount
+      } else if (
+        discount &&
+        (discount[paymentMethod] === true || (!isCreditCard && discount[paymentMethod] !== false))
+      ) {
+        gateway.discount = discount
+        if (response.discount_option && !response.discount_option.label) {
+          response.discount_option.label = label
         }
       }
 
