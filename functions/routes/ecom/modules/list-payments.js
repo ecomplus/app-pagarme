@@ -118,6 +118,10 @@ exports.post = ({ appSdk }, req, res) => {
           // list all installment options and default one
           const total = params.amount || amount
           console.log('First amount money', total)
+          if (total.discount) {
+            total.total = total.subtotal
+          }
+          console.log('Second amount money', total)
           addInstallments(total, installments, gateway, response)
         }
       }
