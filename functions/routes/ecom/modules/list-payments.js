@@ -50,6 +50,7 @@ exports.post = ({ appSdk }, req, res) => {
         },
         intermediator
       }
+      console.log('Configuracao de pagamento', methodConfig)
       const { discount } = config
       if (discount && discount.value > 0) {
         if (discount.apply_at !== 'freight') {
@@ -105,6 +106,8 @@ exports.post = ({ appSdk }, req, res) => {
         }
       }
 
+      console.log('Pagamentos', JSON.stringify(amount))
+
       if (isCreditCard) {
         if (!gateway.icon) {
           gateway.icon = `${baseUri}/credit-card.png`
@@ -122,7 +125,6 @@ exports.post = ({ appSdk }, req, res) => {
         const { installments } = config
         if (installments) {
           // list all installment options and default one
-          console.log('Cartao', JSON.stringify(amount))
           addInstallments(amount, installments, gateway, response)
         }
       }
