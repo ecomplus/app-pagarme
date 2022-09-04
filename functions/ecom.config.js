@@ -338,7 +338,11 @@ const app = {
             description: 'Habilitar desconto via boleto Pagar.me (padrão)'
           },
           credit_card: {
-            type: 'boolean',
+            type: 'string',
+            enum: [
+              '1 parcela',
+              'Todas parcelas'
+            ],
             title: 'Desconto no cartão',
             description: 'Habilitar desconto com cartão de crédito via Pagar.me'
           },

@@ -7,7 +7,6 @@ exports.post = ({ appSdk }, req, res) => {
   // https://apx-mods.e-com.plus/api/v1/list_payments/schema.json?store_id=100
   const { params, application } = req.body
   const amount = params.amount || {}
-  console.log('Parametros', JSON.stringify(params))
 
   const config = Object.assign({}, application.data, application.hidden_data)
   if (!config.pagarme_encryption_key || !config.pagarme_api_key) {
@@ -51,8 +50,10 @@ exports.post = ({ appSdk }, req, res) => {
         },
         intermediator
       }
-      console.log('Configuracao de pagamento', methodConfig)
       const { discount } = config
+      if (isCreditCard) {
+        discount[paymentMethod] = discount[paymentMethod] === 'Todas parcelas' || (typeof discount[paymentMethod] === 'boolean' && discount[paymentMethod])
+      }
       if (discount && discount.value > 0) {
         if (discount.apply_at !== 'freight') {
           // default discount option
@@ -85,7 +86,7 @@ exports.post = ({ appSdk }, req, res) => {
                 discountValue = maxDiscount
               }
             }
-            if (discountValue > 0 && methodConfig.discount && !isCreditCard) {
+            if (discountValue > 0 && discount[paymentMethod]) {
               amount.discount = (amount.discount || 0) + discountValue
               amount.total -= discountValue
               if (amount.total < 0) {
