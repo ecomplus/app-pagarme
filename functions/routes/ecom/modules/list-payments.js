@@ -84,7 +84,7 @@ exports.post = ({ appSdk }, req, res) => {
                 discountValue = maxDiscount
               }
             }
-            if (discountValue > 0 && methodConfig.discount) {
+            if (discountValue > 0 && methodConfig.discount && !isCreditCard) {
               amount.discount = (amount.discount || 0) + discountValue
               amount.total -= discountValue
               if (amount.total < 0) {
