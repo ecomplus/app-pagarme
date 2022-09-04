@@ -115,13 +115,13 @@ exports.post = ({ appSdk }, req, res) => {
         }
         const { installments } = config
         if (installments) {
-          console.log('Amount used for this calculation :', amount)
           // list all installment options and default one
-          console.log('First amount money', params.amount)
-          addInstallments(params.amount, installments, gateway, response)
+          const total = params.amount || amount
+          console.log('First amount money', total)
+          addInstallments(total, installments, gateway, response)
         }
       }
-      console.log('Metodo para desconto', methodConfig)
+      console.log('Metodo para desconto', JSON.stringify(methodConfig))
       if (methodConfig.discount) {
         gateway.discount = methodConfig.discount
       } else if (
@@ -133,7 +133,7 @@ exports.post = ({ appSdk }, req, res) => {
           response.discount_option.label = label
         }
       }
-      console.log('Gateway', gateway)
+      console.log('Gateway', JSON.stringify(gateway))
       response.payment_gateways.push(gateway)
     }
   })
