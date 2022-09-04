@@ -117,10 +117,8 @@ exports.post = ({ appSdk }, req, res) => {
         if (installments) {
           console.log('Amount used for this calculation :', amount)
           // list all installment options and default one
-          if (true) {
-            addInstallments(params.amount, installments, gateway, response)
-          } else {addInstallments(amount, installments, gateway, response)}
-          
+          console.log('First amount money', params.amount)
+          addInstallments(params.amount, installments, gateway, response)
         }
       }
       console.log('Metodo para desconto', methodConfig)
