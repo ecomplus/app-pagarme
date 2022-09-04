@@ -122,6 +122,7 @@ exports.post = ({ appSdk }, req, res) => {
         const { installments } = config
         if (installments) {
           // list all installment options and default one
+          console.log('Cartao', JSON.stringify(amount))
           addInstallments(amount, installments, gateway, response)
         }
       }
