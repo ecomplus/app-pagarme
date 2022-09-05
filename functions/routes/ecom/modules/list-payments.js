@@ -52,9 +52,10 @@ exports.post = ({ appSdk }, req, res) => {
       }
       const { discount } = config
       console.log(`Desconto para ${paymentMethod}`, discount[paymentMethod])
+      let discountOnlyOneParcel
       if (isCreditCard) {
+        discountOnlyOneParcel = discount[paymentMethod] === '1 parcela'
         discount[paymentMethod] = discount[paymentMethod] === 'Todas parcelas' || (typeof discount[paymentMethod] === 'boolean' && discount[paymentMethod])
-        console.log('Desconto no cartao', discount[paymentMethod])
       }
       if (discount && discount.value > 0) {
         if (discount.apply_at !== 'freight') {
@@ -102,7 +103,7 @@ exports.post = ({ appSdk }, req, res) => {
         gateway.discount = methodConfig.discount
       } else if (
         discount &&
-        (discount[paymentMethod] === true || (!isCreditCard && discount[paymentMethod] !== false))
+        (discount[paymentMethod] === true || (!isCreditCard && discount[paymentMethod] !== false) || discountOnlyOneParcel)
       ) {
         gateway.discount = discount
         if (response.discount_option && !response.discount_option.label) {
