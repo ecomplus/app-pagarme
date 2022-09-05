@@ -51,7 +51,6 @@ exports.post = ({ appSdk }, req, res) => {
         intermediator
       }
       const { discount } = config
-      console.log(`Desconto para ${paymentMethod}`, discount[paymentMethod])
       let discountOnlyOneParcel
       if (isCreditCard) {
         discountOnlyOneParcel = discount[paymentMethod] === '1 parcela'
@@ -110,8 +109,6 @@ exports.post = ({ appSdk }, req, res) => {
           response.discount_option.label = label
         }
       }
-
-      console.log('Pagamentos', JSON.stringify(amount))
 
       if (isCreditCard) {
         if (!gateway.icon) {
