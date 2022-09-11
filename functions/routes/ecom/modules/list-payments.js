@@ -7,6 +7,7 @@ exports.post = ({ appSdk }, req, res) => {
   // https://apx-mods.e-com.plus/api/v1/list_payments/schema.json?store_id=100
   const { params, application } = req.body
   const amount = params.amount || {}
+  const initialTotalAmount = amount.total
 
   const config = Object.assign({}, application.data, application.hidden_data)
   if (!config.pagarme_encryption_key || !config.pagarme_api_key) {
@@ -97,6 +98,18 @@ exports.post = ({ appSdk }, req, res) => {
         intermediator
       }
 
+      if (methodConfig.discount) {
+        gateway.discount = methodConfig.discount
+      } else if (
+        discount &&
+        (discount[paymentMethod] === true || (!isCreditCard && discount[paymentMethod] !== false))
+      ) {
+        gateway.discount = discount
+        if (response.discount_option && !response.discount_option.label) {
+          response.discount_option.label = label
+        }
+      }
+
       if (isCreditCard) {
         if (!gateway.icon) {
           gateway.icon = `${baseUri}/credit-card.png`
@@ -113,20 +126,9 @@ exports.post = ({ appSdk }, req, res) => {
         }
         const { installments } = config
         if (installments) {
+          const installmentsTotal = gateway.discount ? amount.total : initialTotalAmount
           // list all installment options and default one
-          addInstallments(amount, installments, gateway, response)
-        }
-      }
-
-      if (methodConfig.discount) {
-        gateway.discount = methodConfig.discount
-      } else if (
-        discount &&
-        (discount[paymentMethod] === true || (!isCreditCard && discount[paymentMethod] !== false))
-      ) {
-        gateway.discount = discount
-        if (response.discount_option && !response.discount_option.label) {
-          response.discount_option.label = label
+          addInstallments(installmentsTotal, installments, gateway, response)
         }
       }
 

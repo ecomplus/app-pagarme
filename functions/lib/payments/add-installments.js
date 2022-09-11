@@ -1,6 +1,7 @@
-module.exports = (amount, installments, gateway = {}, response) => {
-  let maxInterestFree = !(installments.interest_free_min_amount > amount.total)
-    ? installments.max_interest_free : 0
+module.exports = (total, installments, gateway = {}, response) => {
+  let maxInterestFree = !(installments.interest_free_min_amount > total)
+    ? installments.max_interest_free
+    : 0
   const maxInstallments = installments.max_number && maxInterestFree
     ? Math.max(installments.max_number, maxInterestFree)
     : installments.max_number || maxInterestFree
@@ -26,9 +27,10 @@ module.exports = (amount, installments, gateway = {}, response) => {
       if (tax) {
         interest = installments.monthly_interest / 100
       }
-      const value = !tax ? amount.total / number
+      const value = !tax
+        ? total / number
         // https://pt.wikipedia.org/wiki/Tabela_Price
-        : amount.total * (interest / (1 - Math.pow(1 + interest, -number)))
+        : total * (interest / (1 - Math.pow(1 + interest, -number)))
       if (value >= minInstallment) {
         gateway.installment_options.push({
           number,

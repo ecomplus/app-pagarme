@@ -28,7 +28,7 @@ exports.post = ({ appSdk }, req, res) => {
     if (installmentsNumber > 1) {
       if (config.installments) {
         // list all installment options
-        const { gateway } = addInstallments(amount, config.installments)
+        const { gateway } = addInstallments(amount.total, config.installments)
         const installmentOption = gateway.installment_options &&
           gateway.installment_options.find(({ number }) => number === installmentsNumber)
         if (installmentOption) {
