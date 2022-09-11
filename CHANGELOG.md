@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/ecomplus/application-starter/compare/v1.3.0...v1.3.1) (2022-09-11)
+
+
+### Bug Fixes
+
+* **list-payments:** add installments with initial amount when no discount for credit card [[#85](https://github.com/ecomplus/application-starter/issues/85)] ([92ad658](https://github.com/ecomplus/application-starter/commit/92ad658c8e598145b334b18bd5060d3fc8bbbab6))
+
 ## [1.3.0](https://github.com/ecomplus/application-starter/compare/v1.2.0...v1.3.0) (2022-07-08)
 
 
