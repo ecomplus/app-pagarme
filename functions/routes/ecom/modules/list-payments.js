@@ -87,6 +87,7 @@ exports.post = ({ appSdk }, req, res) => {
           label = !isPix ? 'Boleto bancário' : 'Pix'
         }
       }
+      const isDiscountInOneParcel = discount[paymentMethod] === '1 parcela'
       const gateway = {
         label,
         icon: methodConfig.icon,
@@ -128,7 +129,7 @@ exports.post = ({ appSdk }, req, res) => {
         if (installments) {
           const installmentsTotal = gateway.discount ? amount.total : initialTotalAmount
           // list all installment options and default one
-          addInstallments(installmentsTotal, installments, gateway, response)
+          addInstallments(installmentsTotal, installments, gateway, response, initialTotalAmount, isDiscountInOneParcel)
         }
       }
 

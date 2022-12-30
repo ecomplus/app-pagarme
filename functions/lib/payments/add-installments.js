@@ -1,4 +1,8 @@
-module.exports = (total, installments, gateway = {}, response) => {
+module.exports = (finalTotal, installments, gateway = {}, response, initialTotal, isDiscountInOneParcel) => {
+  let total = finalTotal
+  if (isDiscountInOneParcel) {
+    total = initialTotal
+  } 
   let maxInterestFree = !(installments.interest_free_min_amount > total)
     ? installments.max_interest_free
     : 0
@@ -21,6 +25,7 @@ module.exports = (total, installments, gateway = {}, response) => {
 
     // list installment options
     gateway.installment_options = []
+
     for (let number = 2; number <= maxInstallments; number++) {
       const tax = !(maxInterestFree >= number)
       let interest
