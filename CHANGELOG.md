@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/ecomplus/application-starter/compare/v1.3.1...v1.4.0) (2022-12-30)
+
+
+### Features
+
+* **list-payments:** insert option discount in only one parcel ([#90](https://github.com/ecomplus/application-starter/issues/90)) [skip ci] ([2b320f7](https://github.com/ecomplus/application-starter/commit/2b320f7dca10057a595b1cd039eb45c065cbfcfb))
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#86](https://github.com/ecomplus/application-starter/issues/86)) [skip ci] ([aa1876c](https://github.com/ecomplus/application-starter/commit/aa1876c60c3b25f9da2cfc9c2fddf0228621a227))
+
 ### [1.3.1](https://github.com/ecomplus/application-starter/compare/v1.3.0...v1.3.1) (2022-09-11)
 
 
