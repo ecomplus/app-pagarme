@@ -82,7 +82,6 @@ exports.post = ({ appSdk }, req, res) => {
       let label = methodConfig.label
       if (!label) {
         if (isCreditCard) {
-          discount[paymentMethod] = discount[paymentMethod] === 'Todas parcelas' || (typeof discount[paymentMethod] === 'boolean' && discount[paymentMethod])
           label = 'Cartão de crédito'
         } else {
           label = !isPix ? 'Boleto bancário' : 'Pix'
