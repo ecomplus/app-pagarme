@@ -1,6 +1,6 @@
 {
   "app_id": 117391,
-  "title": "Pagar.me",
+  "title": "Pagar.me teste",
   "slug": "pagarme",
   "type": "external",
   "state": "active",
@@ -8,11 +8,11 @@
   "modules": {
     "list_payments": {
       "enabled": true,
-      "endpoint": "https://us-central1-ecom-pagarme.cloudfunctions.net/app/ecom/modules/list-payments"
+      "endpoint": "https://us-central1-ecom-pagme.cloudfunctions.net/app/ecom/modules/list-payments"
     },
     "create_transaction": {
       "enabled": true,
-      "endpoint": "https://us-central1-ecom-pagarme.cloudfunctions.net/app/ecom/modules/create-transaction"
+      "endpoint": "https://us-central1-ecom-pagme.cloudfunctions.net/app/ecom/modules/create-transaction"
     }
   },
   "auth_scope": {
@@ -307,6 +307,6 @@
       "hide": false
     }
   },
-  "auth_callback_uri": "https://us-central1-ecom-pagarme.cloudfunctions.net/app/ecom/auth-callback",
+  "auth_callback_uri": "https://us-central1-ecom-pagme.cloudfunctions.net/app/ecom/auth-callback",
   "version": "1.3.1"
 }
