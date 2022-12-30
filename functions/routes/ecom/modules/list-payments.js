@@ -107,7 +107,7 @@ exports.post = ({ appSdk }, req, res) => {
         gateway.discount = methodConfig.discount
       } else if (
         discount &&
-        (discount[paymentMethod] === true || (!isCreditCard && discount[paymentMethod] !== false) || discountOnlyOneParcel)
+        (discount[paymentMethod] === true || (!isCreditCard && discount[paymentMethod] !== false))
       ) {
         gateway.discount = discount
         if (response.discount_option && !response.discount_option.label) {
