@@ -82,10 +82,17 @@ exports.post = ({ appSdk }, req, res) => {
       let label = methodConfig.label
       if (!label) {
         if (isCreditCard) {
+          discount[paymentMethod] = discount[paymentMethod] === 'Todas parcelas' || (typeof discount[paymentMethod] === 'boolean' && discount[paymentMethod])
           label = 'Cartão de crédito'
         } else {
           label = !isPix ? 'Boleto bancário' : 'Pix'
         }
+      }
+      let discountOnlyOneParcel
+      if (isCreditCard && (typeof discount[paymentMethod] === 'string')) {
+        discountOnlyOneParcel = discount[paymentMethod] === '1 parcela'
+        discount[paymentMethod] = discountOnlyOneParcel || discount[paymentMethod] === 'Todas as parcelas'
+
       }
       const gateway = {
         label,
@@ -102,7 +109,7 @@ exports.post = ({ appSdk }, req, res) => {
         gateway.discount = methodConfig.discount
       } else if (
         discount &&
-        (discount[paymentMethod] === true || (!isCreditCard && discount[paymentMethod] !== false))
+        (discount[paymentMethod] === true || (!isCreditCard && discount[paymentMethod] !== false) || discountOnlyOneParcel)
       ) {
         gateway.discount = discount
         if (response.discount_option && !response.discount_option.label) {
@@ -128,7 +135,7 @@ exports.post = ({ appSdk }, req, res) => {
         if (installments) {
           const installmentsTotal = gateway.discount ? amount.total : initialTotalAmount
           // list all installment options and default one
-          addInstallments(installmentsTotal, installments, gateway, response)
+          addInstallments(installmentsTotal, installments, gateway, response, initialTotalAmount, discountOnlyOneParcel)
         }
       }
 
