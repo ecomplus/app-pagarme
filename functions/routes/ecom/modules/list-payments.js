@@ -92,7 +92,6 @@ exports.post = ({ appSdk }, req, res) => {
       if (isCreditCard && (typeof discount[paymentMethod] === 'string')) {
         discountOnlyOneParcel = discount[paymentMethod] === '1 parcela'
         discount[paymentMethod] = discountOnlyOneParcel || discount[paymentMethod] === 'Todas as parcelas'
-
       }
       const gateway = {
         label,
