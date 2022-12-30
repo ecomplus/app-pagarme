@@ -129,7 +129,7 @@ exports.post = ({ appSdk }, req, res) => {
         if (installments) {
           const installmentsTotal = gateway.discount ? amount.total : initialTotalAmount
           // list all installment options and default one
-          addInstallments(installmentsTotal, installments, gateway, response, initialTotalAmount, discountOnlyOneParcel)
+          addInstallments(installmentsTotal, installments, gateway, response, initialTotalAmount, isDiscountInOneParcel)
         }
       }
 
