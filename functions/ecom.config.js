@@ -341,7 +341,8 @@ const app = {
             type: 'string',
             enum: [
               '1 parcela',
-              'Todas as parcelas'
+              'Todas as parcelas',
+              'Desativar'
             ],
             title: 'Desconto no cartão',
             description: 'Habilitar desconto com cartão de crédito via Pagar.me'
