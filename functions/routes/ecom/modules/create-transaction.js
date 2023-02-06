@@ -219,6 +219,7 @@ exports.post = ({ appSdk }, req, res) => {
     })
 
     .catch(error => {
+      console.log(error)
       // try to debug request error
       const errCode = 'PAGARME_TRANSACTION_ERR'
       let { message } = error
