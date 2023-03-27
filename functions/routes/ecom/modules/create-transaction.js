@@ -77,8 +77,16 @@ exports.post = ({ appSdk }, req, res) => {
       }
       if (boleto.days_due_date) {
         const date = new Date()
-        date.setDate(date.getDate() + boleto.days_due_date)
-        pagarmeTransaction.boleto_expiration_date = date.toISOString().substr(0, 10)
+        date.setDate(date.getDate() + 4)
+        const parseDatePagarme = ms => {
+          const newDate = new Date(ms)
+          const pad = n => `${Math.floor(Math.abs(n))}`.padStart(2, '0');
+          return date.getFullYear() +
+            '-' + pad(newDate.getMonth() + 1) +
+            '-' + pad(newDate.getDate())
+        }
+        const stringDate = parseDatePagarme(date)
+        pagarmeTransaction.boleto_expiration_date = stringDate
       }
     }
   }
