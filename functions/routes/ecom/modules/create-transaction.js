@@ -77,7 +77,7 @@ exports.post = ({ appSdk }, req, res) => {
       }
       if (boleto.days_due_date) {
         const date = new Date()
-        date.setDate(date.getDate() + 4)
+        date.setDate(date.getDate() + boleto.days_due_date)
         const parseDatePagarme = ms => {
           const newDate = new Date(ms)
           const pad = n => `${Math.floor(Math.abs(n))}`.padStart(2, '0');
