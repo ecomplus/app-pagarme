@@ -77,7 +77,13 @@ exports.post = ({ appSdk }, req, res) => {
       }
       if (boleto.days_due_date) {
         const date = new Date()
+        if (storeId == 3967) {
+          console.log('Date barra', date)
+        }
         date.setDate(date.getDate() + boleto.days_due_date)
+        if (storeId == 3967) {
+          console.log('Date barra after add', date)
+        }
         const parseDatePagarme = ms => {
           const newDate = new Date(ms)
           const pad = n => `${Math.floor(Math.abs(n))}`.padStart(2, '0');
@@ -86,6 +92,9 @@ exports.post = ({ appSdk }, req, res) => {
             '-' + pad(newDate.getDate())
         }
         const stringDate = parseDatePagarme(date)
+        if (storeId == 3967) {
+          console.log('Date barra', stringDate)
+        }
         pagarmeTransaction.boleto_expiration_date = stringDate
       }
     }
