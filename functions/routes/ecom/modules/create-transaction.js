@@ -79,7 +79,7 @@ exports.post = ({ appSdk }, req, res) => {
         const date = new Date()
         date.setDate(date.getDate() + boleto.days_due_date)
         const parseDatePagarme = ms => {
-          const timeMs = ms.getTime() - 180000
+          const timeMs = ms.getTime() - (180000 * 60)
           const newDate = new Date(timeMs)
           const pad = n => `${Math.floor(Math.abs(n))}`.padStart(2, '0');
           return date.getFullYear() +
