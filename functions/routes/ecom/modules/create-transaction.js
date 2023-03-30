@@ -75,13 +75,16 @@ exports.post = ({ appSdk }, req, res) => {
           .substr(0, 255)
         transaction.banking_billet.text_lines = [pagarmeTransaction.boleto_instructions]
       }
+      if (Number(storeId) === 3967) {
+        console.log('Boleto prazo', boleto.days_due_date)
+      }
       if (boleto.days_due_date) {
         const date = new Date()
-        if (storeId == 3967) {
+        if (Number(storeId) === 3967) {
           console.log('Date barra', date)
         }
         date.setDate(date.getDate() + boleto.days_due_date)
-        if (storeId == 3967) {
+        if (Number(storeId) === 3967) {
           console.log('Date barra after add', date)
         }
         const parseDatePagarme = ms => {
@@ -92,10 +95,13 @@ exports.post = ({ appSdk }, req, res) => {
             '-' + pad(newDate.getDate())
         }
         const stringDate = parseDatePagarme(date)
-        if (storeId == 3967) {
-          console.log('Date barra', stringDate)
+        if (Number(storeId) === 3967) {
+          console.log('Date barra string', stringDate)
         }
         pagarmeTransaction.boleto_expiration_date = stringDate
+      }
+      if (Number(storeId) === 3967) {
+        console.log('Expiration date', JSON.stringify(pagarmeTransaction))
       }
     }
   }
