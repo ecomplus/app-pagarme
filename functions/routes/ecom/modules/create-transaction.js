@@ -87,9 +87,6 @@ exports.post = ({ appSdk }, req, res) => {
             '-' + pad(newDate.getDate())
         }
         const stringDate = parseDatePagarme(date)
-        if (Number(storeId) === 3967) {
-          console.log('Date barra string', stringDate)
-        }
         pagarmeTransaction.boleto_expiration_date = stringDate
       }
     }
