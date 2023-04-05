@@ -15,7 +15,7 @@
       for (let key in objectCardValidated) {
         if (Object.hasOwnProperty.call(objectCardValidated, key)) {
           if (!objectCardValidated[key]) {
-            return reject()
+            return reject(new Error(`Invalid card: ${key}`))
           }
         }
       }
