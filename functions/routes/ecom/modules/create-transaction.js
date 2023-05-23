@@ -218,6 +218,11 @@ exports.post = ({ appSdk }, req, res) => {
         transaction.intermediator.transaction_code = qrCode
         const qrCodeSrc = `https://gerarqrcodepix.com.br/api/v1?brcode=${qrCode}&tamanho=256`
         transaction.notes = `<img src="${qrCodeSrc}" style="display:block;margin:0 auto">`
+        if (data.pix_expiration_date) {
+          transaction.account_deposit = {
+            valid_thru: new Date(data.pix_expiration_date).toISOString()
+          }
+        }
       }
 
       transaction.status = {
