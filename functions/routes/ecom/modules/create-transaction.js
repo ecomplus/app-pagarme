@@ -1,4 +1,4 @@
-const { baseUri, partner } = require('./../../../__env')
+const { baseUri, pagarmePartnerId } = require('./../../../__env')
 const axios = require('axios')
 const addInstallments = require('../../../lib/payments/add-installments')
 const parseStatus = require('../../../lib/payments/parse-status')
@@ -102,8 +102,8 @@ exports.post = ({ appSdk }, req, res) => {
     platform_integration: 'ecomplus'
   }
 
-  if (partner) {
-    pagarmeTransaction.service_referer_name = partner
+  if (pagarmePartnerId) {
+    pagarmeTransaction.service_referer_name = pagarmePartnerId
   }
 
   pagarmeTransaction.customer = {

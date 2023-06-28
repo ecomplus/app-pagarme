@@ -10,5 +10,5 @@ module.exports = {
   pkg: {
     ...pkg
   },
-  partner: pagarme && pagarme.partner
+  pagarmePartnerId: pagarme && pagarme.partner_id
 }
