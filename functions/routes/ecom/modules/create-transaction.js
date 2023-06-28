@@ -1,4 +1,4 @@
-const { baseUri } = require('./../../../__env')
+const { baseUri, partner } = require('./../../../__env')
 const axios = require('axios')
 const addInstallments = require('../../../lib/payments/add-installments')
 const parseStatus = require('../../../lib/payments/parse-status')
@@ -102,6 +102,10 @@ exports.post = ({ appSdk }, req, res) => {
     platform_integration: 'ecomplus'
   }
 
+  if (partner) {
+    pagarmeTransaction.service_referer_name = partner
+  }
+
   pagarmeTransaction.customer = {
     email: buyer.email,
     name: buyer.fullname,
@@ -149,7 +153,7 @@ exports.post = ({ appSdk }, req, res) => {
       address: parseAddress(params.billing_address)
     }
   }
-
+  
   pagarmeTransaction.items = []
   items.forEach(item => {
     if (item.quantity > 0) {
