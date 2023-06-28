@@ -3,7 +3,8 @@ require('dotenv').config()
 const {
   FIREBASE_TOKEN,
   SERVER_OPERATOR_TOKEN,
-  SERVER_BASE_URI
+  SERVER_BASE_URI,
+  PARTNER_ID
 } = process.env
 
 require('./scripts-minification')
@@ -15,7 +16,8 @@ const client = require('firebase-tools')
 const config = [
   `pkg.version=${version}`,
   `pkg.name=${name}`,
-  `server.operator_token=${SERVER_OPERATOR_TOKEN}`
+  `server.operator_token=${SERVER_OPERATOR_TOKEN}`,
+  `pagarme.partner_id=${PARTNER_ID}`
 ]
 if (SERVER_BASE_URI) {
   config.push(`server.base_uri=${SERVER_BASE_URI}`)
