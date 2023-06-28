@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/ecomplus/application-starter/compare/v1.4.0...v1.5.0) (2023-06-28)
+
+
+### Features
+
+* **create-transaction:** add account deposit object with valid thru (pix expiration) ([#98](https://github.com/ecomplus/application-starter/issues/98)) ([8b316a3](https://github.com/ecomplus/application-starter/commit/8b316a3728efcf070ce17182e588c30a37d28276))
+
+
+### Bug Fixes
+
+* **create-transaction:** boleto due from config ([6853d82](https://github.com/ecomplus/application-starter/commit/6853d82ec50bead9d8b2166aa9e6f7a3be90fa96))
+* **create-transaction:** send correct banking billet due date ([f7273d8](https://github.com/ecomplus/application-starter/commit/f7273d81fff4bc8fda37c9c725d9d94a7de8ebe8))
+* **deps:** update dependency axios to v1 ([#106](https://github.com/ecomplus/application-starter/issues/106)) [skip ci] ([d58bf2c](https://github.com/ecomplus/application-starter/commit/d58bf2ca96667bac8026e3e757aded258143aeff))
+* **onload-expression:** validate card with pagarme.js before card hash ([#94](https://github.com/ecomplus/application-starter/issues/94)) [skip ci] ([c872566](https://github.com/ecomplus/application-starter/commit/c8725669b53c1c6f2a86a8df4e1abcf023c5bcaa))
+
 ## [1.4.0](https://github.com/ecomplus/application-starter/compare/v1.3.1...v1.4.0) (2022-12-30)
 
 
