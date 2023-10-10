@@ -11,7 +11,7 @@ exports.post = ({ appSdk }, req, res) => {
     const orderId = pagarmeTransaction.metadata.order_id
 
     if (storeId > 100 && /^[a-f0-9]{24}$/.test(orderId)) {
-      console.log('> Postback #', storeId, orderId)
+      console.log('> Postback #', storeId, orderId, (req.body.current_status || pagarmeTransaction.status))
       // read configured E-Com Plus app data
       return getAppData({ appSdk, storeId })
         .then(config => {
