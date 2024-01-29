@@ -20,6 +20,13 @@ exports.post = ({ appSdk }, req, res) => {
           const apiKey = config.pagarme_api_key
           const verifyBody = qs.stringify(req.body)
           const signature = req.headers['x-hub-signature'].replace('sha1=', '')
+          if (storeId == 51372) {
+            console.log('Verify body', verifyBody)
+            console.log('signature', signature)
+            console.log('api key', apiKey)
+            console.log('checking pagarme', pagarme.postback.verifySignature(apiKey, verifyBody, signature))
+          }
+
           if (!pagarme.postback.verifySignature(apiKey, verifyBody, signature)) {
             return res.sendStatus(403)
           }
@@ -28,18 +35,11 @@ exports.post = ({ appSdk }, req, res) => {
           const resource = `orders/${orderId}.json`
           return appSdk
             .apiRequest(storeId, resource)
-            .catch(err => console.log('error to get order', err))
-            .then(({ response }) => {
-              console.log('Error with order: ', response)
-              return { order: response.data, config }
-            })
+            .then(({ response }) => ({ order: response.data, config }))
         })
 
         .then(({ order }) => {
           // add new transaction status to payment history
-          if (storeId == 51372) {
-            console.log('Order from #51372', JSON.stringify(order))
-          }
           const transaction = order.transactions.find(({ intermediator }) => {
             return intermediator && intermediator.transaction_id === String(pagarmeTransaction.id)
           })
