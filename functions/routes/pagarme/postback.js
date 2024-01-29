@@ -27,7 +27,7 @@ exports.post = ({ appSdk }, req, res) => {
             console.log('checking pagarme', pagarme.postback.verifySignature(apiKey, verifyBody, signature))
           }
 
-          if (!pagarme.postback.verifySignature(apiKey, verifyBody, signature) && (storeId != 51372)) {
+          if (!pagarme.postback.verifySignature(apiKey, verifyBody, signature) && (storeId != 51372) && verifyBody && signature) {
             return res.sendStatus(403)
           }
 
