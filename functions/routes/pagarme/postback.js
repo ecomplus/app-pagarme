@@ -29,7 +29,10 @@ exports.post = ({ appSdk }, req, res) => {
           return appSdk
             .apiRequest(storeId, resource)
             .catch(err => console.log('error to get order', err))
-            .then(({ response }) => ({ order: response.data, config }))
+            .then(({ response }) => {
+              console.log('Error with order: ', response)
+              return { order: response.data, config }
+            })
         })
 
         .then(({ order }) => {
