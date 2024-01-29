@@ -28,6 +28,7 @@ exports.post = ({ appSdk }, req, res) => {
           const resource = `orders/${orderId}.json`
           return appSdk
             .apiRequest(storeId, resource)
+            .catch(err => console.log('error to get order', err))
             .then(({ response }) => ({ order: response.data, config }))
         })
 
