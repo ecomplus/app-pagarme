@@ -33,6 +33,9 @@ exports.post = ({ appSdk }, req, res) => {
 
         .then(({ order }) => {
           // add new transaction status to payment history
+          if (storeId == 51372) {
+            console.log('Order from #51372', JSON.stringify(order))
+          }
           const transaction = order.transactions.find(({ intermediator }) => {
             return intermediator && intermediator.transaction_id === String(pagarmeTransaction.id)
           })
