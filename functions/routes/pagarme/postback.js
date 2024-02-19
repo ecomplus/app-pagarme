@@ -5,10 +5,10 @@ const parseStatus = require('../../lib/payments/parse-status')
 
 exports.post = ({ appSdk }, req, res) => {
   // https://docs.pagar.me/docs/gerenciando-postbacks
-  const pagarmeTransaction = req.body && req.body.transaction
+  let pagarmeTransaction = req.body && req.body.transaction
   if (pagarmeTransaction && pagarmeTransaction.metadata) {
-    const storeId = parseInt(pagarmeTransaction.metadata.store_id, 10)
-    const orderId = pagarmeTransaction.metadata.order_id
+    let storeId = parseInt(pagarmeTransaction.metadata.store_id, 10)
+    let orderId = pagarmeTransaction.metadata.order_id
 
     if (storeId > 100 && /^[a-f0-9]{24}$/.test(orderId)) {
       console.log('> Postback #', storeId, orderId, (req.body.current_status || pagarmeTransaction.status))
@@ -26,9 +26,22 @@ exports.post = ({ appSdk }, req, res) => {
             console.log('api key', apiKey)
             console.log('checking pagarme', pagarme.postback.verifySignature(apiKey, verifyBody, signature))
           }
-
           if (!pagarme.postback.verifySignature(apiKey, verifyBody, signature) && verifyBody && signature) {
-            return res.sendStatus(403)
+            axios({
+              url: `https://api.pagar.me/1/transactions/${pagarmeTransaction.id}`,
+              method: 'get',
+              data: {
+                api_key: apiKey
+              }
+            }).then(({data}) => {
+              pagarmeTransaction = {}
+              storeId = 1000
+              orderId = 0
+              pagarmeTransaction = data
+              storeId = parseInt(pagarmeTransaction.metadata.store_id, 10)
+              orderId = pagarmeTransaction.metadata.order_id
+              console.log('Get order #', storeId, orderId, pagarmeTransaction.status)
+            })
           }
 
           // get E-Com Plus order
