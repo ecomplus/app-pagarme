@@ -20,12 +20,7 @@ exports.post = ({ appSdk }, req, res) => {
           const apiKey = config.pagarme_api_key
           const verifyBody = qs.stringify(req.body)
           const signature = req.headers['x-hub-signature'].replace('sha1=', '')
-          if (storeId == 51372) {
-            console.log('Verify body', verifyBody)
-            console.log('signature', signature)
-            console.log('api key', apiKey)
-            console.log('checking pagarme', pagarme.postback.verifySignature(apiKey, verifyBody, signature))
-          }
+
           if (!pagarme.postback.verifySignature(apiKey, verifyBody, signature) && verifyBody && signature) {
             axios({
               url: `https://api.pagar.me/1/transactions/${pagarmeTransaction.id}`,
