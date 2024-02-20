@@ -2,6 +2,7 @@ const qs = require('qs')
 const pagarme = require('pagarme')
 const getAppData = require('../../lib/store-api/get-app-data')
 const parseStatus = require('../../lib/payments/parse-status')
+const axios = require('axios')
 
 exports.post = ({ appSdk }, req, res) => {
   // https://docs.pagar.me/docs/gerenciando-postbacks
