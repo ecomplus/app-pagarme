@@ -133,8 +133,9 @@ exports.post = ({ appSdk }, req, res) => {
           const installmentsTotal = gateway.discount ? amount.total : initialTotalAmount
           // list all installment options and default one
           const isBazipass = params.items && params.items.length && params.items.some(({name}) => name.includes('Bazipass'))
+          console.log('is bazipass', isBazipass, JSON.stringify(params.items))
           if (isBazipass) {
-            installments.max_number = config.bazipass_max_number
+            installments.max_number = config.bazipass_max_number || 12
           }
           addInstallments(installmentsTotal, installments, gateway, response, initialTotalAmount, isDiscountInOneParcel)
         }
