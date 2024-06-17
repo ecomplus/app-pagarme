@@ -134,7 +134,13 @@ exports.post = ({ appSdk }, req, res) => {
           // list all installment options and default one
           const isBazipass = params.items && params.items.length && params.items.some(({name}) => name.includes('Bazipass'))
           if (isBazipass) {
-            installments.max_number = config.bazipass_max_number || 12
+            function extractNumber(str) {
+              // Use a regular expression to find any number from 1 to 12
+              const match = typeof str === 'string' && str.match(/\b(1[0-2]|[1-9])\b/);
+              // If a match is found, return it, otherwise return null or an empty string
+              return match ? Number(match[0]) : Number(str || 12);
+            }
+            installments.max_number = extractNumber(config.bazipass_max_number) || 10
           }
           addInstallments(installmentsTotal, installments, gateway, response, initialTotalAmount, isDiscountInOneParcel)
         }
