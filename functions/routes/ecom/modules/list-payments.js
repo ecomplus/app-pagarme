@@ -8,8 +8,7 @@ exports.post = ({ appSdk }, req, res) => {
   const { params, application } = req.body
   const amount = params.amount || {}
   const initialTotalAmount = amount.total
-  const isBazipass = params.items && params.items.length && params.items.some(({name}) => name.includes('Bazipass'))
-  console.log('is bazipass', isBazipass, JSON.stringify(params.items))
+  const isBazipass = params.items && params.items.length && params.items.some(({name}) => name && name.toLowerCase().includes('bazipass'))
   const config = Object.assign({}, application.data, application.hidden_data)
   if (!config.pagarme_encryption_key || !config.pagarme_api_key) {
     return res.status(409).send({
@@ -140,7 +139,6 @@ exports.post = ({ appSdk }, req, res) => {
           const installmentsTotal = gateway.discount ? amount.total : initialTotalAmount
           // list all installment options and default one
           if (isBazipass) {
-            console.log('get bazipass', isBazipass)
             function extractNumber(str) {
               console.log('extract to number', str)
               // Use a regular expression to find any number from 1 to 5
