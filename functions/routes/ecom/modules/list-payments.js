@@ -24,13 +24,12 @@ exports.post = ({ appSdk }, req, res) => {
   }
 
   const { discount } = config
-  if (isBazipass && config.bazipass_max_number) {
+  if (isBazipass && config.installments && config.installments.bazipass_max_number) {
     discount.value = 8.3333
     discount.type = 'percentage'
     discount.banking_billet = true
     discount.account_deposit = true
   }
-  console.log('config bazipass', config.bazipass_max_number, JSON.stringify(discount))
   if (discount && discount.value > 0) {
     if (discount.apply_at !== 'freight') {
       // default discount option
@@ -150,7 +149,7 @@ exports.post = ({ appSdk }, req, res) => {
               console.log('match number', Number(match[0]), Number(str || 5))
               return match ? Number(match[0]) : Number(str || 5);
             }
-            installments.max_number = extractNumber(config.bazipass_max_number) || 10
+            installments.max_number = extractNumber(installments.bazipass_max_number) || 10
           }
           addInstallments(installmentsTotal, installments, gateway, response, initialTotalAmount, isDiscountInOneParcel)
         }
