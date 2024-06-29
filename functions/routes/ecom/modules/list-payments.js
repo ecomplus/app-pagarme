@@ -8,6 +8,7 @@ exports.post = ({ appSdk }, req, res) => {
   const { params, application } = req.body
   const amount = params.amount || {}
   const initialTotalAmount = amount.total
+  const isBazipass = params.items && params.items.length && params.items.some(({name}) => name.includes('Bazipass'))
 
   const config = Object.assign({}, application.data, application.hidden_data)
   if (!config.pagarme_encryption_key || !config.pagarme_api_key) {
@@ -23,6 +24,12 @@ exports.post = ({ appSdk }, req, res) => {
   }
 
   const { discount } = config
+  if (isBazipass && config.bazipass_max_number) {
+    discount.value = 8.3333
+    discount.type = 'percentage'
+    discount.banking_billet = true
+    discount.account_deposit = true
+  }
   if (discount && discount.value > 0) {
     if (discount.apply_at !== 'freight') {
       // default discount option
@@ -132,7 +139,6 @@ exports.post = ({ appSdk }, req, res) => {
         if (installments) {
           const installmentsTotal = gateway.discount ? amount.total : initialTotalAmount
           // list all installment options and default one
-          const isBazipass = params.items && params.items.length && params.items.some(({name}) => name.includes('Bazipass'))
           if (isBazipass) {
             function extractNumber(str) {
               // Use a regular expression to find any number from 1 to 12
