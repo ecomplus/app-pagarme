@@ -9,7 +9,7 @@ exports.post = ({ appSdk }, req, res) => {
   const amount = params.amount || {}
   const initialTotalAmount = amount.total
   const isBazipass = params.items && params.items.length && params.items.some(({name}) => name.includes('Bazipass'))
-
+  console.log('is bazipass', isBazipass, JSON.stringify(params.items))
   const config = Object.assign({}, application.data, application.hidden_data)
   if (!config.pagarme_encryption_key || !config.pagarme_api_key) {
     return res.status(409).send({
@@ -30,6 +30,7 @@ exports.post = ({ appSdk }, req, res) => {
     discount.banking_billet = true
     discount.account_deposit = true
   }
+  console.log('config bazipass', config.bazipass_max_number, JSON.stringify(discount))
   if (discount && discount.value > 0) {
     if (discount.apply_at !== 'freight') {
       // default discount option
@@ -140,11 +141,14 @@ exports.post = ({ appSdk }, req, res) => {
           const installmentsTotal = gateway.discount ? amount.total : initialTotalAmount
           // list all installment options and default one
           if (isBazipass) {
+            console.log('get bazipass', isBazipass)
             function extractNumber(str) {
-              // Use a regular expression to find any number from 1 to 12
+              console.log('extract to number', str)
+              // Use a regular expression to find any number from 1 to 5
               const match = typeof str === 'string' && str.match(/\b(1[0-2]|[1-9])\b/);
               // If a match is found, return it, otherwise return null or an empty string
-              return match ? Number(match[0]) : Number(str || 12);
+              console.log('match number', Number(match[0]), Number(str || 5))
+              return match ? Number(match[0]) : Number(str || 5);
             }
             installments.max_number = extractNumber(config.bazipass_max_number) || 10
           }
