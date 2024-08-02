@@ -12,7 +12,8 @@ exports.post = ({ appSdk }, req, res) => {
     let orderId = pagarmeTransaction.metadata.order_id
 
     if (storeId > 100 && /^[a-f0-9]{24}$/.test(orderId)) {
-      console.log('> Postback #', storeId, orderId, (req.body.current_status || pagarmeTransaction.status))
+      let pagarmeStatus = req.body.current_status || pagarmeTransaction.status
+      console.log('> Postback #', storeId, orderId, pagarmeStatus)
       // read configured E-Com Plus app data
       return getAppData({ appSdk, storeId })
         .then(async config => {
@@ -31,9 +32,10 @@ exports.post = ({ appSdk }, req, res) => {
               }
             })
             pagarmeTransaction = data
+            pagarmeStatus = pagarmeTransaction.status
             storeId = parseInt(pagarmeTransaction.metadata.store_id, 10)
             orderId = pagarmeTransaction.metadata.order_id
-            console.log('Get order #', storeId, orderId, pagarmeTransaction.status)
+            console.log('Get order #', storeId, orderId, pagarmeStatus)
           }
 
           // get E-Com Plus order
@@ -52,7 +54,7 @@ exports.post = ({ appSdk }, req, res) => {
           const method = 'POST'
           const body = {
             date_time: new Date().toISOString(),
-            status: parseStatus(req.body.current_status || pagarmeTransaction.status),
+            status: parseStatus(pagarmeStatus),
             notification_code: req.body.fingerprint,
             flags: ['pagarme']
           }
