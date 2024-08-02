@@ -15,29 +15,25 @@ exports.post = ({ appSdk }, req, res) => {
       console.log('> Postback #', storeId, orderId, (req.body.current_status || pagarmeTransaction.status))
       // read configured E-Com Plus app data
       return getAppData({ appSdk, storeId })
-        .then(config => {
+        .then(async config => {
           // validate Pagar.me postback
           // https://github.com/pagarme/pagarme-js/issues/170#issuecomment-503729557
           const apiKey = config.pagarme_api_key
           const verifyBody = qs.stringify(req.body)
           const signature = req.headers['x-hub-signature'].replace('sha1=', '')
 
-          if (!pagarme.postback.verifySignature(apiKey, verifyBody, signature) && verifyBody && signature) {
-            axios({
+          if (!pagarme.postback.verifySignature(apiKey, verifyBody, signature)) {
+            const { data } = await axios({
               url: `https://api.pagar.me/1/transactions/${pagarmeTransaction.id}`,
               method: 'get',
               data: {
                 api_key: apiKey
               }
-            }).then(({data}) => {
-              pagarmeTransaction = {}
-              storeId = 1000
-              orderId = 0
-              pagarmeTransaction = data
-              storeId = parseInt(pagarmeTransaction.metadata.store_id, 10)
-              orderId = pagarmeTransaction.metadata.order_id
-              console.log('Get order #', storeId, orderId, pagarmeTransaction.status)
             })
+            pagarmeTransaction = data
+            storeId = parseInt(pagarmeTransaction.metadata.store_id, 10)
+            orderId = pagarmeTransaction.metadata.order_id
+            console.log('Get order #', storeId, orderId, pagarmeTransaction.status)
           }
 
           // get E-Com Plus order
