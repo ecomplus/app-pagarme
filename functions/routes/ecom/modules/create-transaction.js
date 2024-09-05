@@ -11,7 +11,7 @@ exports.post = ({ appSdk }, req, res) => {
 
   const orderId = params.order_id
   const { amount, buyer, payer, to, items } = params
-  console.log('> Transaction #', storeId, orderId)
+  console.log(`> Transaction #${storeId}, ${orderId}`)
   let quantityItems = 0
 
   // https://apx-mods.e-com.plus/api/v1/create_transaction/response_schema.json?store_id=100
@@ -45,7 +45,9 @@ exports.post = ({ appSdk }, req, res) => {
       payment_method: 'credit_card',
       amount: Math.floor(finalAmount * 100),
       installments: installmentsNumber,
-      card_hash: params.credit_card && params.credit_card.hash
+      card_hash: params.credit_card && params.credit_card.hash,
+      recurrence_model: installmentsNumber ? 'installment' : 'standing_order',
+      initiated_type: 'PartialShipment'
     }
   } else if (params.payment_method.code === 'account_deposit') {
     const finalAmount = amount.total
@@ -82,7 +84,7 @@ exports.post = ({ appSdk }, req, res) => {
         const parseDatePagarme = ms => {
           const timeMs = ms.getTime() - (180000 * 60)
           const newDate = new Date(timeMs)
-          const pad = n => `${Math.floor(Math.abs(n))}`.padStart(2, '0');
+          const pad = n => `${Math.floor(Math.abs(n))}`.padStart(2, '0')
           return date.getFullYear() +
             '-' + pad(newDate.getMonth() + 1) +
             '-' + pad(newDate.getDate())
@@ -154,7 +156,7 @@ exports.post = ({ appSdk }, req, res) => {
       address: parseAddress(params.billing_address)
     }
   }
-  
+
   pagarmeTransaction.items = []
   items.forEach(item => {
     if (item.quantity > 0) {
@@ -201,7 +203,7 @@ exports.post = ({ appSdk }, req, res) => {
         if (data.customer && data.customer.id) {
           transaction.intermediator.buyer_id = String(data.customer.id)
         }
-  
+
         if (transaction.banking_billet) {
           if (data.boleto_barcode) {
             transaction.banking_billet.code = data.boleto_barcode
@@ -230,14 +232,15 @@ exports.post = ({ appSdk }, req, res) => {
             }
           }
         }
-  
+
         transaction.status = {
+          // eslint-disable-next-line promise/always-return
           updated_at: data.date_created || data.date_updated || new Date().toISOString(),
           current: parseStatus(data.status)
         }
         res.send({ transaction })
       })
-  
+
       .catch(error => {
         console.log(error)
         // try to debug request error
